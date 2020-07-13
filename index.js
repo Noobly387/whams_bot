@@ -37,33 +37,36 @@ for (const file of commandFilesLeague) {
 }
 
 
-client.once('ready', () => {
-	console.log('Ready!');
+client.once('ready', async () => {
+	console.log(`${client.user.username} is Online!\n`);
+	client.user.setActivity(`you get WHAMMED | ${prefix}help`, {type: "WATCHING"});
 });
 
-client.on('message', message => {
+client.on('message', async message => {
   
-  const WHAMED = "730251299140009988";
-  const WHAMER = "730251287219929170";
+	const WHAMED = "730251299140009988";
+  	const WHAMER = "730251287219929170";
+	const rishiId = "557379287460741143";
 
-	if (message.author.bot) return;
+	if (message.author.bot) return; //If the message was sent by a bot, do not respond
 
 	if (Math.random() < 0.005) {
 		try {
 			const command = client.backgrounds.get("custom_text");
 			command.execute(message, Discord, client);
 		} catch (error) {
-			message.channel.send({embed: {
-				color:16711680,
-				description: `Oops! Something went wrong while lord Droben attempted to give you information. Please notify Whams.`
-			}}).then(msg => msg.delete({timeout: 10000})).catch();
+			message.channel.send({
+				embed: {
+					color:16711680,
+					description: `Oops! Something went wrong while lord Droben attempted to give you information. Please notify Whams.`
+				}
+			}).then(msg => msg.delete({timeout: 10000})).catch();
 			console.log(error);
 			message.react("⚠️");
 			return;
 		}
 	}
-	if (Math.random() < 0.02)
-	{
+	if (Math.random() < 0.02) {
 		try {
 			const command = client.backgrounds.get("give_charge");
 			command.execute(message, Discord, client);
@@ -77,23 +80,23 @@ client.on('message', message => {
 			return;
 		}
 	}
-	else if (Math.random() < 0.03)
-	{
+	else if (Math.random() < 0.03) {
 		try {
 			const command = client.backgrounds.get("throw_charge");
 			command.execute(message, Discord, client);
 		} catch (error) {
-			message.channel.send({embed: {
-				color:16711680,
-				description: `Oops! Something went wrong while lord Droben attempted to give a token. Please notify Whams.`
-			}}).then(msg => msg.delete({timeout: 10000})).catch();
+			message.channel.send({
+				embed: {
+					color:16711680,
+					description: `Oops! Something went wrong while lord Droben attempted to give a token. Please notify Whams.`
+				}
+			}).then(msg => msg.delete({timeout: 10000})).catch();
 			console.log(error);
 			message.react("⚠️");
 			return;
 		}
 	}
-	if (message.author.id == "557379287460741143")
-	{
+	if (message.author.id == rishiId) {
 		try {
 			const command = client.backgrounds.get("rishi_mute");
 			command.execute(message, Discord, client);
@@ -106,8 +109,7 @@ client.on('message', message => {
 			return;
 		}
 	}
-	if (message.content.includes("you are blocked"))
-	{
+	if (message.content.includes("you are blocked") || message.content.includes("you&#39;re blocked")) {
 		try {
 			const command = client.backgrounds.get("blocked");
 			command.execute(message, Discord, client);
@@ -122,9 +124,8 @@ client.on('message', message => {
 		}
 		
 	}
+
 	if (!message.content.startsWith(prefix)) return;
-
-
 
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const commandName = args.shift().toLowerCase();
@@ -140,12 +141,11 @@ client.on('message', message => {
 	try {
 		message.delete({timeout: 10000}).catch();
 		command.execute(message, args, Discord, client);
-		
-		
 	} catch (error) {
 		console.error(error);
 		message.reply('there was an error trying to execute that command!').then(msg => msg.delete({timeout: 10000}).catch());
 	}
 	// other commands...
 });
+
 client.login(token);
